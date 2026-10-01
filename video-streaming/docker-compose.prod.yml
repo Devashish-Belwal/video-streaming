@@ -4,7 +4,7 @@
 
 services:
   backend:
-    build: ./backend
+    image: devashishbelwal/video-streaming-backend:latest
     ports:
       - "127.0.0.1:3000:3000"
     environment:
@@ -27,10 +27,7 @@ services:
       - app
 
   frontend:
-    build:
-      context: ./frontend
-      args:
-        VITE_API_URL: /api  # Relative path; nginx proxies /api to backend
+    image: devashishbelwal/video-streaming-frontend:latest
     ports:
       - "127.0.0.1:8080:80"
     depends_on:

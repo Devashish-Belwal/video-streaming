@@ -1,0 +1,44 @@
+# Production Compose for EC2 (Option B: frontend nginx proxies /api to backend)
+# Do not include real credentials in this file.
+# Supply secrets at deploy time via environment or secrets mechanism.
+
+services:
+  backend:
+    build: ./backend
+    ports: []  # Not exposed to public; accessed only via frontend proxy
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATABASE_URL: ${DATABASE_URL}
+      AWS_REGION: ${AWS_REGION}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      S3_BUCKET_NAME: ${S3_BUCKET_NAME}
+      FRONTEND_ORIGIN: ${FRONTEND_ORIGIN}
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+    restart: unless-stopped
+    networks:
+      - app
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: /api  # Relative path; nginx proxies /api to backend
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - app
+
+networks:
+  app:
+    driver: bridge

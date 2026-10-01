@@ -1,0 +1,1 @@
+import express from "express"; import videoRoutes from "video-streaming/backend/dist/src/routes/video.routes.js"; const a=express(); a.use(express.json()); a.use("/api/videos", videoRoutes); a.listen(3003, () => console.log("test 3003"));

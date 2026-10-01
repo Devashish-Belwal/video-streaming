@@ -4,5 +4,6 @@ export interface Video {
   title: string;
   size: number;
   mimeType: string;
-  path?: string;
+  storageKey: string;
+  createdAt: Date;
 }

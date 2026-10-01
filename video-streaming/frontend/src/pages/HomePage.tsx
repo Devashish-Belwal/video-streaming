@@ -42,7 +42,7 @@ export default function HomePage() {
   if (error) return <p style={{ color: "red" }}>{error}</p>;
   return (
     <div>
-      <h1>Video Library</h1>
+      <h1>Video Library2</h1>
       <div style={{ marginBottom: 24 }}>
         <h3>Upload video</h3>
         <input type="file" accept="video/*" ref={fileRef} />

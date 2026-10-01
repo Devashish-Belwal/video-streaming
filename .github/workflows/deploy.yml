@@ -16,7 +16,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: backend
+        working-directory: video-streaming/backend
 
     steps:
       - name: Checkout
@@ -42,7 +42,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: frontend
+        working-directory: video-streaming/frontend
 
     steps:
       - name: Checkout
@@ -82,8 +82,8 @@ jobs:
       - name: Build and push backend
         uses: docker/build-push-action@v6
         with:
-          context: ./backend
-          file: ./backend/Dockerfile
+          context: ./video-streaming/backend
+          file: ./video-streaming/backend/Dockerfile
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/video-streaming-backend:latest
@@ -92,8 +92,8 @@ jobs:
       - name: Build and push frontend
         uses: docker/build-push-action@v6
         with:
-          context: ./frontend
-          file: ./frontend/Dockerfile
+          context: ./video-streaming/frontend
+          file: ./video-streaming/frontend/Dockerfile
           push: true
           build-args: |
             VITE_API_URL=/api

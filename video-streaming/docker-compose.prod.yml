@@ -5,7 +5,8 @@
 services:
   backend:
     build: ./backend
-    ports: []  # Not exposed to public; accessed only via frontend proxy
+    ports:
+      - "127.0.0.1:3000:3000"
     environment:
       NODE_ENV: production
       PORT: 3000
@@ -31,7 +32,7 @@ services:
       args:
         VITE_API_URL: /api  # Relative path; nginx proxies /api to backend
     ports:
-      - "80:80"
+      - "127.0.0.1:8080:80"
     depends_on:
       backend:
         condition: service_healthy
